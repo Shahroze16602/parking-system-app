@@ -9,17 +9,17 @@ import { useToast } from "@/hooks/use-toast";
 import { Trash } from "lucide-react";
 import { useState } from "react";
 
-export default function Home() {
-  type Vehicles = {
-    id: number;
-    carNumber: string;
-  };
+type Vehicles = {
+  id: number;
+  vehicleNumber: string;
+};
 
+export default function Home() {
   const [bikes, setBikes] = useState<Vehicles[]>([]);
   const [cars, setCars] = useState<Vehicles[]>([]);
   const { toast } = useToast();
 
-  const addBike = (carNumber: string) => {
+  const addBike = (bikeNumber: string) => {
     if (bikes.length >= 10) {
       toast({
         title: "No space available",
@@ -27,7 +27,7 @@ export default function Home() {
       });
       return;
     }
-    const newBike = { id: bikes.length + 1, carNumber };
+    const newBike = { id: bikes.length + 1, vehicleNumber: bikeNumber };
     setBikes([...bikes, newBike]);
   };
 
@@ -51,7 +51,7 @@ export default function Home() {
       });
       return;
     }
-    const newCar = { id: cars.length + 1, carNumber };
+    const newCar = { id: cars.length + 1, vehicleNumber: carNumber };
     setCars([...cars, newCar]);
   };
 
@@ -88,13 +88,14 @@ export default function Home() {
                   <TableRow>
                     <TableHead className="text-center">ID</TableHead>
                     <TableHead className="text-center">Bike Number</TableHead>
+                    <TableHead className="text-center">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="text-center">
                   {bikes.map((bike, index) => (
                     <TableRow key={index}>
                       <TableCell>{bike.id}</TableCell>
-                      <TableCell>{bike.carNumber}</TableCell>
+                      <TableCell>{bike.vehicleNumber}</TableCell>
                       <TableCell><Button variant="outline" onClick={() => removeBike(bike.id)}><Trash /></Button></TableCell>
                     </TableRow>
                   ))}
@@ -111,13 +112,14 @@ export default function Home() {
                   <TableRow>
                     <TableHead className="text-center">ID</TableHead>
                     <TableHead className="text-center">Car Number</TableHead>
+                    <TableHead className="text-center">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody className="text-center">
                   {cars.map((car, index) => (
                     <TableRow key={index}>
                       <TableCell>{car.id}</TableCell>
-                      <TableCell>{car.carNumber}</TableCell>
+                      <TableCell>{car.vehicleNumber}</TableCell>
                       <TableCell><Button variant="outline" onClick={() => removeCar(car.id)}><Trash /></Button></TableCell>
                     </TableRow>
                   ))}
