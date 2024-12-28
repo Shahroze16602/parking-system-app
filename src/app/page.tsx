@@ -1,10 +1,12 @@
 'use client'
 
 import { AddVehicleDialog } from "@/_components/addVehicleDialog";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
+import { Trash } from "lucide-react";
 import { useState } from "react";
 
 export default function Home() {
@@ -29,6 +31,18 @@ export default function Home() {
     setBikes([...bikes, newBike]);
   };
 
+  const removeBike = (id: number) => {
+    if (bikes.length === 0) {
+      toast({
+        title: "No bikes parked",
+        description: "No bikes parked to remove",
+      });
+      return;
+    }
+    const newBikes = bikes.filter((bike) => bike.id !== id);
+    setBikes(newBikes);
+  };
+
   const addCar = (carNumber: string) => {
     if (cars.length >= 10) {
       toast({
@@ -40,6 +54,18 @@ export default function Home() {
     const newCar = { id: cars.length + 1, carNumber };
     setCars([...cars, newCar]);
   };
+
+  const removeCar = (id: number) => {
+    if (cars.length === 0) {
+      toast({
+        title: "No cars parked",
+        description: "No cars parked to remove",
+      });
+      return;
+    }
+    const newCars = cars.filter((car) => car.id !== id);
+    setCars(newCars);
+  }
 
   const addVehicle = (vehicleNumber: string, vehicleType: string) => {
     if (vehicleType === "bike") {
@@ -69,6 +95,7 @@ export default function Home() {
                     <TableRow key={index}>
                       <TableCell>{bike.id}</TableCell>
                       <TableCell>{bike.carNumber}</TableCell>
+                      <TableCell><Button variant="outline" onClick={() => removeBike(bike.id)}><Trash /></Button></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -91,6 +118,7 @@ export default function Home() {
                     <TableRow key={index}>
                       <TableCell>{car.id}</TableCell>
                       <TableCell>{car.carNumber}</TableCell>
+                      <TableCell><Button variant="outline" onClick={() => removeCar(car.id)}><Trash /></Button></TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
